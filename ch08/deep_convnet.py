@@ -17,6 +17,7 @@ class DeepConvNet:
         affine - relu - dropout - affine - dropout - softmax
     """
     def __init__(self, input_dim=(1, 28, 28),
+                 input_dim=(1, 28, 28),
                  conv_param_1 = {'filter_num':16, 'filter_size':3, 'pad':1, 'stride':1},
                  conv_param_2 = {'filter_num':16, 'filter_size':3, 'pad':1, 'stride':1},
                  conv_param_3 = {'filter_num':32, 'filter_size':3, 'pad':1, 'stride':1},
@@ -26,19 +27,35 @@ class DeepConvNet:
                  hidden_size=50, output_size=10):
         # 初始化权重===========
         # 各层的神经元平均与前一层的几个神经元有连接（TODO:自动计算）
-        pre_node_nums = np.array([1*3*3, 16*3*3, 16*3*3, 32*3*3, 32*3*3, 64*3*3, 64*4*4, hidden_size])
+        pre_node_nums = np.array([1*3*3, 16*3*3, 16*3*3, 32*3*3, 32*3*3, 64*3*3, 64*4*4, hidden_size])  #前置节点
         wight_init_scales = np.sqrt(2.0 / pre_node_nums)  # 使用ReLU的情况下推荐的初始值
         
-        self.params = {}
-        pre_channel_num = input_dim[0]
-        for idx, conv_param in enumerate([conv_param_1, conv_param_2, conv_param_3, conv_param_4, conv_param_5, conv_param_6]):
-            self.params['W' + str(idx+1)] = wight_init_scales[idx] * np.random.randn(conv_param['filter_num'], pre_channel_num, conv_param['filter_size'], conv_param['filter_size'])
-            self.params['b' + str(idx+1)] = np.zeros(conv_param['filter_num'])
+        self.params = {}  #定义一个空参数列表
+        pre_channel_num = input_dim[0]  #初始化通道数为1
+        for index, conv_param in enumerate([conv_param_1, conv_param_2, conv_param_3, conv_param_4, conv_param_5, conv_param_6]):   
+            #enumerate()函数用于将一个列表组合为索引序列，默认start=0
+            self.params['W' + str(index+1)] = wight_init_scales[index] * np.random.randn(conv_param['filter_num'], pre_channel_num, conv_param['filter_size'], conv_param['filter_size'])
+            #W1：np.random.randn(16,1,3,3)
+            #W2：np.random.randn(16,1,3,3)
+            #W3：np.random.randn(32,1,3,3)
+            #W4：np.random.randn(32,1,3,3)
+            #W5：np.random.randn(64,1,3,3)
+            #W6：np.random.randn(64,1,3,3)
+            self.params['b' + str(index+1)] = np.zeros(conv_param['filter_num'])
+            #b1:np.zeros(16)
+            #b2:np.zeros(16)
+            #b3:np.zeros(32)
+            #b4:np.zeros(32)
+            #b5:np.zeros(64)
+            #b6:np.zeros(64)
             pre_channel_num = conv_param['filter_num']
+            #前置通道数
         self.params['W7'] = wight_init_scales[6] * np.random.randn(64*4*4, hidden_size)
         self.params['b7'] = np.zeros(hidden_size)
+        #hidden layer的W,b
         self.params['W8'] = wight_init_scales[7] * np.random.randn(hidden_size, output_size)
         self.params['b8'] = np.zeros(output_size)
+        #输出层的W,b
 
         # 生成层===========
         self.layers = []
