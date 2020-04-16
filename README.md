@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # python_code-
 python初学源代码
 =======
@@ -41,16 +40,3 @@ $ cd ../ch05
 $ python train_nueralnet.py
 ```
 
-## 使用许可
-
-本源代码使用[MIT许可协议](http://www.opensource.org/licenses/MIT)。
-无论是否为商业行为，均可自由使用。
-
-## 勘误表
-
-本书的勘误信息在以下网址中公开。读者可以在以下网址中查看和提交勘误。
-
-http://www.ituring.com.cn/book/1921
-
-
->>>>>>> 第一次提交交
